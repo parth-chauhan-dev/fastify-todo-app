@@ -2,9 +2,9 @@
   "module": "commonjs",
   "scripts": {
     "dev": "ts-node --transpile-only src/server.ts",
-    "migrate": "ts-node ./node_modules/typeorm/cli.js migration:generate -d ./src/config/data-source.ts src/migrations/Initial",
-    "migrate:apply": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/config/data-source.ts",
-    "migrate:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert -d ./src/config/data-source.ts"
+    "migrate": "ts-node ./node_modules/typeorm/cli.js migration:generate -d ./data-source.ts src/migrations/Initial",
+    "migrate:apply": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./data-source.ts",
+    "migrate:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert -d ./data-source.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.0.1",

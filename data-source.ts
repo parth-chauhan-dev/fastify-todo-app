@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import * as dotenv from 'dotenv';
-import { TaskEntity } from "../entities/task.entity";
+import { TaskEntity } from "./src/entities/task.entity";
 dotenv.config();
 
 export const AppDataSource = new DataSource({
@@ -9,7 +9,7 @@ export const AppDataSource = new DataSource({
   port: parseInt(process.env.DB_PORT || "5432", 10),
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  database: process.env.DB_NAME,
   synchronize: false,
   migrationsRun: true,
   migrations: ["src/migrations/*.ts"],
