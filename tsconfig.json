@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "ES2024",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": false,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "skipLibCheck": false,
+        "rootDir": "./src",
+        "outDir": "./dist",
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/config/data-source.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
