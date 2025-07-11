@@ -1,5 +1,5 @@
 import fp from "fastify-plugin";
-import { AppDataSource } from "../config/data-source.js";
+import { AppDataSource } from "./../../data-source";
 
 export default fp(async (fastify, options) => {
   try {

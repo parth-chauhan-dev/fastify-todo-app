@@ -9,12 +9,12 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "skipLibCheck": false,
-        "rootDir": "./src",
-        "outDir": "./dist",
+        "rootDir": ".",
+        "outDir": "dist",
     },
     "include": [
-        "src/**/*.ts",
-        "src/config/data-source.ts"
+        "src",
+        "data-source.ts"
     ],
     "exclude": [
         "node_modules",
