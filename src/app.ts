@@ -9,14 +9,14 @@ dotenv.config();
 
 export async function createApp() {
   const app = Fastify({
-    logger: {},
+    logger: true,
   });
 
   app.register(sensible);
   app.register(cors, { origin: "*" });
   app.register(swagger);
   app.register(postgresDB);
-  app.register(taskRoutes, {prefix: 'task'})
+  app.register(taskRoutes, { prefix: "task" });
 
   app.get("/", async (request, reply) => {
     return { status: "ok", message: "Fastify server running" };
