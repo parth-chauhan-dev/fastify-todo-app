@@ -1,10 +1,12 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { TaskEntity } from "../entities/task.entity";
+import * as TaskService from "../services/task.service";
 
-export async function createTask(request: FastifyRequest, reply: FastifyReply) {
-  const repository = request.server.db.getRepository(TaskEntity);
-  const task = repository.create(request.body as Partial<TaskEntity>);
-  const result = await repository.save(task);
+export async function createTask(
+  request: FastifyRequest<{ Body: Partial<TaskEntity> }>,
+  reply: FastifyReply
+) {
+  const result = await TaskService.createTask(request.body);
   return reply.code(200).send(result);
 }
 
@@ -12,17 +14,13 @@ export async function getTaskById(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) {
-  const result = await request.server.db
-    .getRepository(TaskEntity)
-    .find({ where: { id: +request.params.id } });
-  if (!result) {
-    return reply.notFound("Task Not Found");
-  }
-  return reply.send(result);
+  const task = await TaskService.getById(+request.params.id);
+  if (!task) return reply.notFound("Task not found");
+  return reply.send(task);
 }
 
 export async function getTasks(request: FastifyRequest, reply: FastifyReply) {
-  const tasks = await request.server.db.getRepository(TaskEntity).find();
+  const tasks = await TaskService.get();
   if (!tasks.length) {
     return reply.notFound("Task does not exist");
   }
@@ -30,27 +28,21 @@ export async function getTasks(request: FastifyRequest, reply: FastifyReply) {
 }
 
 export async function updateById(
-  request: FastifyRequest<{ Params: { id: string } }>,
+  request: FastifyRequest<{
+    Params: { id: string };
+    Body: Partial<TaskEntity>;
+  }>,
   reply: FastifyReply
 ) {
-  const repo = await request.server.db.getRepository(TaskEntity);
-  const task = await repo.find({ where: { id: +request.params.id } });
-  if (!task) {
-    return reply.notFound("Task not Found");
-  }
-  Object.assign(task, request.body);
-  const updatedTask = await repo.save(task);
-  return reply.send(updatedTask);
+  const task = await TaskService.updateById(+request.params.id, request.body);
+  if (!task) return reply.notFound("Task not found");
+  return reply.send(task);
 }
 
 export async function deleteTask(
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply
 ) {
-  const repo = request.server.db.getRepository(TaskEntity);
-  const task = await repo.findOneBy({ id: +request.params.id });
-  if (!task) return reply.notFound("Task not found");
-
-  await repo.remove(task);
-  return reply.code(204).send();
+  const deleted = await TaskService.deleteById(+request.params.id);
+  return deleted ? reply.code(204).send() : reply.notFound("Task not found");
 }
