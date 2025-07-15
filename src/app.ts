@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import postgresDB from "./plugins/db";
 import taskRoutes from "./routes/task.routes";
 import swagger from "./plugins/swagger";
+import graphql from "./plugins/graphql";
 dotenv.config();
 
 export async function createApp() {
@@ -14,6 +15,7 @@ export async function createApp() {
 
   app.register(sensible);
   app.register(cors, { origin: "*" });
+  app.register(graphql);
   app.register(swagger);
   app.register(postgresDB);
   app.register(taskRoutes, { prefix: "task" });
@@ -21,6 +23,5 @@ export async function createApp() {
   app.get("/", async (request, reply) => {
     return { status: "ok", message: "Fastify server running" };
   });
-
   return app;
 }
